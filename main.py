@@ -12,6 +12,21 @@ def load_shows(filename):
     with open(filename, mode='r', encoding='utf-8') as file:
         reader = csv.DictReader(file)
         for row in reader:
+            raw_rating = row.get("rating","")
+            try:
+                if raw_rating.strip() == "":
+                    rating = 0.0
+                else:
+                    rating = float(raw_rating)
+            except ValueError:
+                print(f"Warning: Could not convert a '{raw_rating}'")
+                rating = 0.0
+            
+            show = {
+                "streaming_service": row.get("\ufeffnetwork"),
+                "show": row.get("show"),
+                "rating": raw_rating
+            }
             shows.append(row)
     return shows
 
