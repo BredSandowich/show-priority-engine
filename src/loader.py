@@ -4,7 +4,7 @@ import csv
 #Load CSV file
 def load_shows(filename):
     shows = []
-    with open(filename, mode='r', encoding='utf-8') as file:
+    with open(filename, mode='r', encoding='utf-8-sig') as file:
         reader = csv.DictReader(file)
         headers = ["network", "show", "rating"]
         reader.fieldnames = headers
@@ -29,4 +29,5 @@ def load_shows(filename):
                 "rating": raw_rating
             }
             shows.append(row)
+        
     return shows
