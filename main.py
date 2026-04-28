@@ -15,15 +15,22 @@ def safe_float(value):
 
 def main():
     data = load_shows(csv_path)
+    #Remove faulty load of first row in CSV if loaded with wrong UTF
     if data and data[0]["show"] == "show":
         data.pop(0)
+        
     print(f"Loaded {len(data)} shows from your list!")
-    
     print("--- Welcome to the Show watch priority engine ---")
     
-    if data:
-        print(data[0])
-        
+    #User input
+    target_streaming_prompt = input("Enter streaming service to filter or press 'Enter' for all:").strip()
+    
+    if target_streaming_prompt:
+        filtered_data = [show for show in data if show["network"].lower() == target_streaming_prompt.lower()]
+    else:
+        filtered_data = data
+    
+    print(filtered_data[0])
 
 if __name__ == "__main__":
     main()
