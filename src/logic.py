@@ -4,6 +4,11 @@
 field_network = "network"
 field_show = "show"
 field_rating = "rating"
+field_imdb = "imdb_rating"
+field_rot = "rot_rating"
+field_other_rating = "other_rating"
+field_recomended = "recommended" #binary 1 = yes, null = no
+
 
 #Scoring weights from internet (adjust as needed)
 weight_imdb = 0.5

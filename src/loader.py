@@ -27,6 +27,10 @@ def load_shows(filename):
                 "streaming_service": network,
                 "show": show,
                 "rating": raw_rating
+                "imdb_rating": imdb_raw,
+                "rot_rating": rt_raw
+                "other_rating": other_raw,
+                "recommended": is_recommended
             }
             shows.append(row)
         
