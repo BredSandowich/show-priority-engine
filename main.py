@@ -1,6 +1,7 @@
 # main.py
 import os
 from src.loader import load_shows
+from src.scorer import get_final_score
 
 base_dir = os.path.dirname(__file__) #This file's directory
 csv_path = os.path.join(base_dir, "data", "shows.csv") #CSV file
@@ -30,7 +31,16 @@ def main():
     else:
         filtered_data = data
     
-    print(filtered_data[0])
+    #Calculate score
+    for show in filtered_data:
+        show["priority"] = get_final_score(show, weights)
+        
+    #Sort and display result
+    filtered_data.sort(key=lambda x: x["priority"], reverse=True)
+    
+    print(f'The top 3 recommendations for you are: ')
+    for show in filtered_data[:3]:
+        print(f'\n{show["title"]} (Score: {show["priority"]:.2f})')
 
 if __name__ == "__main__":
     main()
