@@ -9,11 +9,12 @@ field_rot = "rot_rating"
 field_other_rating = "other_rating"
 field_recomended = "recommended" #binary 1 = yes, null = no
 
-
 #Scoring weights from internet (adjust as needed)
-weight_imdb = 0.5
-weight_rottenT = 0.2
-weight_other = 0.3
+weights = {
+    "weight_imdb" : 0.5,
+    "weight_rottenT" : 0.2,
+    "weight_other" : 0.3
+}
 
 #Multipliers (adjust as needed)
 friend_recommendation_multiplier = 2

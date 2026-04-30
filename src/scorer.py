@@ -1,5 +1,5 @@
 # scorer.py
-import logic
+from src.logic import weights, field_network, field_show, field_rating, field_imdb, field_rot, field_other_rating, field_recomended
 
 #Logic for weighted average of shows that have broken out ratings
 def calculate_base_rating(show, weights):
@@ -9,21 +9,21 @@ def calculate_base_rating(show, weights):
     other_rating = 0
     
     if show[field_imdb] is not None and show[field_imdb] > 0 :
-        imdb_rating = show.get(field_imdb, 0) * weight_imdb
+        imdb_rating = show.get(field_imdb, 0) * weights["weight_imdb"]
     if show[field_rot] is not None and show[field_rot] > 0 :
-        rt_rating = show.get(field_rot, 0) * weight_rottenT
+        rt_rating = show.get(field_rot, 0) * weights["weight_rottenT"]
     if show[field_other_rating] is not None and show[field_other_rating] > 0 :
-        other_rating = show.get(field_other_rating, 0) * other_rating
+        other_rating = show.get(field_other_rating, 0) * weights["weight_other"]
         
     return imdb_rating + rt_rating + other_rating
 
 #Default logic to revert back to base average of dataset rating if no broken out rating by site
 def get_final_score(show, weights):
     #Check if broken out score exists and use weighted average or use manual base rating
-    if show.get(field_imdb, 0) > 0 :
+    if show.get(field_imdb, 0) > 0 and show.get(field_rot, 0) > 0 and show.get(field_other_rating, 0):
         base_rating = calculate_base_rating(show, weights)
     else:
-        base_rating = show.get(field_rating,0)
+        base_rating = show.get(field_rating, 0)
     
     #Recommendation multiplier if file has value in recommendation it will use multiplier
     is_recommended = show.get("is_recommended")

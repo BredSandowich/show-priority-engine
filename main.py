@@ -2,17 +2,11 @@
 import os
 from src.loader import load_shows
 from src.scorer import get_final_score
+from src.logic import weights, field_network, field_show, field_rating, field_imdb, field_rot, field_other_rating, field_recomended
+
 
 base_dir = os.path.dirname(__file__) #This file's directory
 csv_path = os.path.join(base_dir, "data", "shows.csv") #CSV file
-
-#Make sure rating is truly a "float"
-def safe_float(value):
-    try:
-        return float(value)
-    except (TypeError, ValueError):
-        return None
-
 
 def main():
     data = load_shows(csv_path)
@@ -27,9 +21,13 @@ def main():
     target_streaming_prompt = input("Enter streaming service to filter or press 'Enter' for all:").strip()
     
     if target_streaming_prompt:
-        filtered_data = [show for show in data if show["network"].lower() == target_streaming_prompt.lower()]
+        filtered_data = [show for show in data if show["streaming_service"].lower() == target_streaming_prompt.lower()]
     else:
         filtered_data = data
+    
+    if not filtered_data:
+        print(f"Dang outta luck, couldn't find any shows on '{target_streaming_prompt}'.")
+        return 
     
     #Calculate score
     for show in filtered_data:
@@ -40,7 +38,8 @@ def main():
     
     print(f'The top 3 recommendations for you are: ')
     for show in filtered_data[:3]:
-        print(f'\n{show["title"]} (Score: {show["priority"]:.2f})')
+        recommended_tag = "Recommended!" if show.get("is_recommended") == 1 else ""
+        print(f'\n{show["show"]} (Score: {show["priority"]:.2f})')
 
 if __name__ == "__main__":
     main()
