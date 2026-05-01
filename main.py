@@ -20,7 +20,7 @@ def main():
     target_streaming_prompt = input("Enter streaming service to filter or press 'Enter' for all:").strip()
     
     if target_streaming_prompt:
-        filtered_data = [show for show in data if show["streaming_service"].lower() == target_streaming_prompt.lower()]
+        filtered_data = [show for show in data if show["network"].lower() == target_streaming_prompt.lower()]
     else:
         filtered_data = data
     
@@ -40,7 +40,7 @@ def main():
     print(f'The top 4 recommendations for you are: ')
     for show in filtered_data[:4]:
         recommended_tag = "recommended!" if show.get("is_recommended") == 1 else ""
-        print(f'\n{show["show"]} {recommended_tag} (Rating: {show["quality"]} Score: {show["rec_rating"]:.2f})')
+        print(f'\n{show["show"]} {recommended_tag} (Rating: {show["quality"]:.2f} Score: {show["rec_rating"]:.2f})')
 
 if __name__ == "__main__":
     main()
