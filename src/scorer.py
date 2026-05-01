@@ -19,17 +19,17 @@ def calculate_base_rating(show, weights):
 
 #Default logic to revert back to base average of dataset rating if no broken out rating by site
 def get_final_score(show, weights):
-    quality = calculate_base_rating(show, weights)
-    rec_rating = quality
-    
+    quality = show.get(field_rating, 0)
+        
     #Check if broken out score exists and use weighted average or use manual base rating
     if show.get(field_imdb_rating, 0) > 0 and show.get(field_rot_rating, 0) > 0 and show.get(field_other_rating, 0):
-        rec_rating = calculate_base_rating(show, weights)
+        quality = calculate_base_rating(show, weights) * 100
     else:
-        rec_rating = show.get(field_rating, 0)
+        quality = show.get(field_rating, 0)
     
     #Recommendation multiplier if file has value in recommendation it will use multiplier
     is_recommended = show.get("is_recommended")
+    rec_rating = quality
     if is_recommended == 1 or is_recommended == "1":
         rec_rating *= friend_recommendation_multiplier
     

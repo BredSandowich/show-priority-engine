@@ -30,9 +30,7 @@ def main():
     
     #Calculate score
     for show in filtered_data:
-        quality, rec_rating = get_final_score(show, weights)
-        show["quality"] = quality
-        show["rec_rating"] = rec_rating
+        show["quality"], show["rec_rating"] = get_final_score(show, weights)
         
     #Sort and display result
     filtered_data.sort(key=lambda x: show["rec_rating"], reverse=True)
