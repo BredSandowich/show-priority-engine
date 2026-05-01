@@ -1,13 +1,13 @@
 # logic.py
 
 #Field names (Constants)
-field_network = "network"
+field_streaming_service = "network"
 field_show = "show"
 field_rating = "rating"
-field_imdb = "imdb_rating"
-field_rot = "rot_rating"
-field_other_rating = "other_rating"
-field_recomended = "recommended" #binary 1 = yes, null = no
+field_imdb_rating = "imdb_raw"
+field_rot_rating = "rt_raw"
+field_other_rating = "other_raw"
+field_recomended = "is_recommended" #binary 1 = yes, null = no
 
 #Scoring weights from internet (adjust as needed)
 weights = {
@@ -17,5 +17,5 @@ weights = {
 }
 
 #Multipliers (adjust as needed)
-friend_recommendation_multiplier = 2
+friend_recommendation_multiplier = 1.5
 mood_multiplier = 0.7

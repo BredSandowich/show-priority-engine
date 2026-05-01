@@ -2,8 +2,7 @@
 import os
 from src.loader import load_shows
 from src.scorer import get_final_score
-from src.logic import weights, field_network, field_show, field_rating, field_imdb, field_rot, field_other_rating, field_recomended
-
+from src.logic import weights, field_streaming_service, field_show, field_rating, field_imdb_rating, field_rot_rating, field_other_rating, field_recomended
 
 base_dir = os.path.dirname(__file__) #This file's directory
 csv_path = os.path.join(base_dir, "data", "shows.csv") #CSV file
@@ -31,15 +30,17 @@ def main():
     
     #Calculate score
     for show in filtered_data:
-        show["priority"] = get_final_score(show, weights)
+        quality, rec_rating = get_final_score(show, weights)
+        show["quality"] = quality
+        show["rec_rating"] = rec_rating
         
     #Sort and display result
-    filtered_data.sort(key=lambda x: x["priority"], reverse=True)
+    filtered_data.sort(key=lambda x: show["rec_rating"], reverse=True)
     
-    print(f'The top 3 recommendations for you are: ')
-    for show in filtered_data[:3]:
-        recommended_tag = "Recommended!" if show.get("is_recommended") == 1 else ""
-        print(f'\n{show["show"]} (Score: {show["priority"]:.2f})')
+    print(f'The top 4 recommendations for you are: ')
+    for show in filtered_data[:4]:
+        recommended_tag = "recommended!" if show.get("is_recommended") == 1 else ""
+        print(f'\n{show["show"]} {recommended_tag} (Rating: {show["quality"]} Score: {show["rec_rating"]:.2f})')
 
 if __name__ == "__main__":
     main()

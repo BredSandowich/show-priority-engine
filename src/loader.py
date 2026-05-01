@@ -1,5 +1,7 @@
 # loader.py
 import csv
+from src.logic import weights, field_streaming_service, field_show, field_rating, field_imdb_rating, field_rot_rating, field_other_rating, field_recomended
+
 
 #Load CSV file
 def load_shows(filename):
@@ -21,7 +23,7 @@ def load_shows(filename):
             show = row.get("show","Unknown title")
             raw_rating = row.get("rating","")
             imdb_rating = row.get("imdb_raw","")
-            rt_rating = row.get("rot_raw","")
+            rt_rating = row.get("rt_raw","")
             other_rating = row.get("other_raw","")
             recommended = row.get("is_recommended","")
             
@@ -35,13 +37,13 @@ def load_shows(filename):
                 rating = 0.0
             
             cleaned_show = {
-                "streaming_service": network,
-                "show": show,
-                "rating": safe_float(raw_rating),
-                "imdb_raw": safe_float(imdb_rating),
-                "rot_raw": safe_float(rt_rating),
-                "other_raw": safe_float(other_rating),
-                "is_recommended": recommended
+                field_streaming_service: network,
+                field_show: show,
+                field_rating: safe_float(raw_rating),
+                field_imdb_rating: safe_float(imdb_rating),
+                field_rot_rating: safe_float(rt_rating),
+                field_other_rating: safe_float(other_rating),
+                field_recomended: recommended
             }
             shows.append(cleaned_show)
         
