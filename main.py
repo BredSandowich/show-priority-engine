@@ -33,7 +33,7 @@ def main():
         show["quality"], show["rec_rating"] = get_final_score(show, weights)
         
     #Sort and display result
-    filtered_data.sort(key=lambda x: show["rec_rating"], reverse=True)
+    filtered_data.sort(key=lambda x: x["rec_rating"], reverse=True)
     
     print(f'The top 4 recommendations for you are: ')
     for show in filtered_data[:4]:
